@@ -21,19 +21,73 @@ class Index {
       .all('/api_v0/user/:id/groups', ctx => {
 	ctx.body = {
 	  current: {
-	    name: 'atlas',
+	    name: 'The Velvet Goldmine',
 	  },
 	  groups: [{
-	    name: 'atlas',
+	    id: '00',
+	    name: 'The Velvet Goldmine',
 	  }]
 	}
       })
-      .all('/api_v0/group/:id', ctx => { ctx.body = 'group info';})
-      .all('/api_v0/group/:id/topic', ctx => { ctx.body = 'hello, world';})
-      .all('/api_v0/user/:id/groups', ctx => { ctx.body = 'user info'})
-      .all('/api_v0/topic/:id', ctx => { ctx.body = 'topic content';})
+      .all('/api_v0/group/current', ctx => {
+	ctx.body = {
+	  id: '0303030',
+	  name: 'The Velvet Goldmine',
+	  members: [{
+	    tel: '01',
+	    name: 'David Bowie'
+	  }, {
+	    tel: '02',
+	    name: 'Iggy Pop'
+	  }, {
+	    tel: '03',
+	    name: 'Lou Reed'
+	  }]
+	}
+      })
+      .all('/api_v0/group/:id', ctx => {
+	ctx.body = {
+	  id: '0303030',
+	  name: 'The Velvet Goldmine',
+	  members: [{
+	    tel: '01',
+	    name: 'David Bowie'
+	  }, {
+	    tel: '02',
+	    name: 'Iggy Pop'
+	  }, {
+	    tel: '03',
+	    name: 'Lou Reed'
+	  }]
+	}
+      })
+      .all('/api_v0/group/:id/topics', ctx => {
+	ctx.body = {
+	  topics: [{
+	    id: '00',
+	    title: 'AMD lands Google, Twitter as customers with newest server chip',
+	  }, {
+	    id: '01',
+	    title: 'GitHub Actions now supports CI/CD, free for public repositories',
+	  }, {
+	    id: '02',
+	    title: 'Svalbard is as close as you can get to a place with open borders'
+	  }]
+	}
+      })
+      .all('/api_v0/topic/:id', ctx => {
+	ctx.body = {
+	  id: 'this is id',
+	  title: 'topic title',
+	  comments: [
+	    'comments A',
+	    'comments B',
+	    'comments C'
+	  ]
+	};
+      });
 
-    return { basic: r };
+    return r;
   }
 
   static server(r) {
@@ -44,11 +98,8 @@ class Index {
       .use(cors())
       .use(logger())
       .use(bodyparser())
-      .use(r.basic.routes())
-      .use(r.basic.allowedMethods())
-      // .use(midware)
-      // .use(r.auth.routes())
-      // .use(r.auth.allowedMethods())
+      .use(r.routes())
+      .use(r.allowedMethods())
       .listen(conf.port);
   }
 
