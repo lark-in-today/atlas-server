@@ -4,88 +4,22 @@ const logger = require('koa-logger');
 const Router = require('koa-router');
 const bodyparser = require('koa-body');
 const conf = require('./config');
+const user = require('./user');
+const group = require('./group');
+const topic = require('./topic');
 
+// main
 class Index {
   static router() {
     let r = new Router();
 
     r
       .all('/', ctx => { ctx.body = 'hello, world';})
-      .all('/api_v0/user/:id', ctx => {
-	ctx.body = {
-	  tel: '18626153029',
-	  name: 'noreply',
-	  mail: 'noreply@cdr.today',
-	}
-      })
-      .all('/api_v0/user/:id/groups', ctx => {
-	ctx.body = {
-	  current: {
-	    name: 'The Velvet Goldmine',
-	  },
-	  groups: [{
-	    id: '00',
-	    name: 'The Velvet Goldmine',
-	  }]
-	}
-      })
-      .all('/api_v0/group/current', ctx => {
-	ctx.body = {
-	  id: '0303030',
-	  name: 'The Velvet Goldmine',
-	  members: [{
-	    tel: '01',
-	    name: 'David Bowie'
-	  }, {
-	    tel: '02',
-	    name: 'Iggy Pop'
-	  }, {
-	    tel: '03',
-	    name: 'Lou Reed'
-	  }]
-	}
-      })
-      .all('/api_v0/group/:id', ctx => {
-	ctx.body = {
-	  id: '0303030',
-	  name: 'The Velvet Goldmine',
-	  members: [{
-	    tel: '01',
-	    name: 'David Bowie'
-	  }, {
-	    tel: '02',
-	    name: 'Iggy Pop'
-	  }, {
-	    tel: '03',
-	    name: 'Lou Reed'
-	  }]
-	}
-      })
-      .all('/api_v0/group/:id/topics', ctx => {
-	ctx.body = {
-	  topics: [{
-	    id: '00',
-	    title: 'AMD lands Google, Twitter as customers with newest server chip',
-	  }, {
-	    id: '01',
-	    title: 'GitHub Actions now supports CI/CD, free for public repositories',
-	  }, {
-	    id: '02',
-	    title: 'Svalbard is as close as you can get to a place with open borders'
-	  }]
-	}
-      })
-      .all('/api_v0/topic/:id', ctx => {
-	ctx.body = {
-	  id: 'this is id',
-	  title: 'topic title',
-	  comments: [
-	    'comments A',
-	    'comments B',
-	    'comments C'
-	  ]
-	};
-      });
+      .all('/api_v0/user/:id', user.info)
+      .all('/api_v0/user/:id/groups', user.groups)
+      .all('/api_v0/group/:id', group.info)
+      .all('/api_v0/group/:id/topics', group.topics)
+      .all('/api_v0/topic/:id', topic.info)
 
     return r;
   }
