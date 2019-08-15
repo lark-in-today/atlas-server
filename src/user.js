@@ -1,23 +1,40 @@
 const user = require('./mongo').User;
 
 function info(ctx) {
-  ctx.body = {
-    tel: '18626153029',
-    name: 'noreply',
-    mail: 'noreply@cdr.today',
+  const id = ctx.params.id;
+  const tk = ctx.request.header.token;
+  // if get self;
+  if (id === '_') {
+    if (tk === '') {
+      ctx.body = {
+	tel: '',
+	name: '',
+	mail: '',
+      }
+      return;
+    }
+    // get user info from token;
   }
+  // get user info by id;
 }
 
 function groups(ctx) {
-  ctx.body = {
-    current: {
-      name: 'The Velvet Goldmine',
-    },
-    groups: [{
-      id: '00',
-      name: 'The Velvet Goldmine',
-    }]
+  const id = ctx.params.id;
+  const tk = ctx.request.header.token;
+  // if get self;
+  if (id === '_') {
+    if (tk === '') {
+      ctx.body = {
+	groups: [{
+	  name: 'atlas',
+	  id: '_'
+	}]
+      }
+      return;
+    }
+    // get user info from token;
   }
+  // get user info by id;
 }
 
 module.exports = {

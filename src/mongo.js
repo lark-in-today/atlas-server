@@ -1,3 +1,4 @@
+const conf = require('./config');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.ObjectId;
@@ -5,7 +6,7 @@ const model = mongoose.model;
 
 /* init */
 mongoose.connect(
-  'mongodb://localhost:27017/lark-in', {
+  conf.mongo_db, {
     useNewUrlParser: true
   }
 );
@@ -39,11 +40,12 @@ class User {
 class Group {
   static schema() {
     return new Schema({
-      info: {
-	id: String,
-	name: String,
-	members: Array
+      id: {
+	type: String,
+	unique: true
       },
+      name: String,
+      members: Array,
       topics: [{
 	id: String,
 	title: String,
@@ -57,6 +59,27 @@ class Group {
 
   constructor() {
     this.group = Group.model();
+  }
+
+  info(id) {
+    return this.group.findOne({id}).select({
+      id: 1,
+      name: 1,
+    });
+  }
+
+  members(id) {
+    return this.group.findOne({id}).select({
+      id: 1,
+      members: 1
+    });
+  }
+
+  topics(id) {
+    return this.group.findOne({id}).select({
+      id: 1,
+      topics: 1
+    });
   }
 }
 

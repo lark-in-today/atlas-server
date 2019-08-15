@@ -1,37 +1,60 @@
-const group = require('./mongo').Group;
+const Group = require('./mongo').Group;
+const _g = new Group();
 
-function info(ctx) {
-  ctx.body = {
-    id: '0303030',
-    name: 'The Velvet Goldmine',
-    members: [{
-      tel: '01',
-      name: 'David Bowie'
-    }, {
-      tel: '02',
-      name: 'Iggy Pop'
-    }, {
-      tel: '03',
-      name: 'Lou Reed'
-    }]
+async function info(ctx) {
+  const id = ctx.params.id;
+  const tk = ctx.request.header.token;
+  // if get self;
+  if (id === '_') {
+    if (tk === '') {
+      let r = await _g.info(id);
+      ctx.body = {
+	id: r.id,
+	name: r.name,
+      };
+      return;
+    }
+    // get user info from token;
   }
+  // get user info by id;
 }
 
-function topics(ctx) {
-  ctx.body = {
-    topics: [{
-      id: '00',
-      title: 'AMD lands Google, Twitter as customers with newest server chip',
-    }, {
-      id: '01',
-      title: 'GitHub Actions now supports CI/CD, free for public repositories',
-    }, {
-      id: '02',
-      title: 'Svalbard is as close as you can get to a place with open borders'
-    }]
+async function members(ctx) {
+  const id = ctx.params.id;
+  const tk = ctx.request.header.token;
+  // if get self;
+  if (id === '_') {
+    if (tk === '') {
+      let r = await _g.members(id);
+      ctx.body = {
+	id: r.id,
+	members: r.members
+      };
+      return;
+    }
+    // get user info from token;
   }
+  // get user info by id;
+}
+
+async function topics(ctx) {
+  const id = ctx.params.id;
+  const tk = ctx.request.header.token;
+  // if get self;
+  if (id === '_') {
+    if (tk === '') {
+      let r = await _g.topics(id);
+      ctx.body = {
+	id: r.id,
+	topics: r.topics
+      };
+      return;
+    }
+    // get user info from token;
+  }
+  // get user info by id;
 }
 
 module.exports = {
-  info, topics
+  info, members, topics
 }

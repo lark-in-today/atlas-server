@@ -18,6 +18,7 @@ class Index {
       .all('/api_v0/user/:id', user.info)
       .all('/api_v0/user/:id/groups', user.groups)
       .all('/api_v0/group/:id', group.info)
+      .all('/api_v0/group/:id/members', group.members)
       .all('/api_v0/group/:id/topics', group.topics)
       .all('/api_v0/topic/:id', topic.info)
 
