@@ -19,34 +19,18 @@ async function info(ctx) {
   // get user info by id;
 }
 
-async function members(ctx) {
+async function data(ctx) {
   const id = ctx.params.id;
   const tk = ctx.request.header.token;
   // if get self;
   if (id === '_') {
     if (tk === '') {
-      let r = await _g.members(id);
+      let r = await _g.data(id);
       ctx.body = {
 	id: r.id,
-	members: r.members
-      };
-      return;
-    }
-    // get user info from token;
-  }
-  // get user info by id;
-}
-
-async function topics(ctx) {
-  const id = ctx.params.id;
-  const tk = ctx.request.header.token;
-  // if get self;
-  if (id === '_') {
-    if (tk === '') {
-      let r = await _g.topics(id);
-      ctx.body = {
-	id: r.id,
-	topics: r.topics
+	name: r.name,
+	topics: r.topics,
+	members: r.members,
       };
       return;
     }
@@ -56,5 +40,5 @@ async function topics(ctx) {
 }
 
 module.exports = {
-  info, members, topics
+  info, data
 }

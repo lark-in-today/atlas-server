@@ -81,6 +81,15 @@ class Group {
       topics: 1
     });
   }
+
+  data(id) {
+    return this.group.findOne({id}).select({
+      id: 1,
+      name: 1,
+      topics: 1,
+      members: 1
+    });
+  }
 }
 
 /* topic */
