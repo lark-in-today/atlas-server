@@ -15,7 +15,10 @@ class Index {
 
     r
       .all('/', ctx => { ctx.body = 'hello, world';})
-      .all('/api_v0/user/:id', user.info)
+      .get('/api_v0/user/:id', user.info)
+      .put('/api_v0/user/:id/update', user.update)
+      .post('/api_v0/user/:id/sms', user.sms)
+      .post('/api_v0/user/:id/sms_verify', user.sms_verify)
       .all('/api_v0/group/:id', group.info)
       .all('/api_v0/group/:id/data', group.data)
       .all('/api_v0/topic/:id', topic.info)

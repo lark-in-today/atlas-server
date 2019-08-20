@@ -1,5 +1,7 @@
+const User = require('./mongo').User;
 const Group = require('./mongo').Group;
 const g = new Group().group;
+const u = new User().user;
 
 // main
 ;(function(){
@@ -7,10 +9,14 @@ const g = new Group().group;
     id: '_'
   }).then(r => {
     if(!r) {
-      console.log('hello');
-      g.create({
-	id: '_', name: 'atlas'
-      })
+      g.create({ name: 'atlas'})
     }
   });
+
+  u.create({
+    tel: '18626153029',
+    groups: [
+      'atlas'
+    ]
+  })
 })();

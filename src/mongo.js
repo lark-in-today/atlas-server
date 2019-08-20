@@ -15,15 +15,13 @@ mongoose.connect(
 class User {
   static schema() {
     return new Schema({
-      info: {
-	name: String,
-	tel: String,
-	mail: String
+      name: String,
+      tel: {
+	type: String,
+	unique: true
       },
-      groups: [{
-	id: String,
-	name: String,
-      }]
+      mail: String,
+      groups: []
     });
   }
 
@@ -40,16 +38,15 @@ class User {
 class Group {
   static schema() {
     return new Schema({
-      id: {
+      name: {
 	type: String,
 	unique: true
       },
-      name: String,
-      members: Array,
       topics: [{
 	id: String,
 	title: String,
-      }]
+      }],
+      owner: String
     });
   }
 
@@ -59,36 +56,6 @@ class Group {
 
   constructor() {
     this.group = Group.model();
-  }
-
-  info(id) {
-    return this.group.findOne({id}).select({
-      id: 1,
-      name: 1,
-    });
-  }
-
-  members(id) {
-    return this.group.findOne({id}).select({
-      id: 1,
-      members: 1
-    });
-  }
-
-  topics(id) {
-    return this.group.findOne({id}).select({
-      id: 1,
-      topics: 1
-    });
-  }
-
-  data(id) {
-    return this.group.findOne({id}).select({
-      id: 1,
-      name: 1,
-      topics: 1,
-      members: 1
-    });
   }
 }
 
@@ -118,6 +85,10 @@ class Topic {
 }
 
 
+const _u = new User().user;
+const _g = new Group().group;
+const _t = new Topic().topic;
+
 module.exports = {
-  User, Group, Topic
-}
+  _u, _g, _t
+};
