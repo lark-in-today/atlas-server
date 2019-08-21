@@ -5,11 +5,7 @@ const ObjectId = mongoose.Schema.ObjectId;
 const model = mongoose.model;
 
 /* init */
-mongoose.connect(
-  conf.mongo_db, {
-    useNewUrlParser: true
-  }
-);
+mongoose.connect(conf.mongo_db, { useNewUrlParser: true });
 
 /* user */
 class User {
@@ -42,10 +38,6 @@ class Group {
 	type: String,
 	unique: true
       },
-      topics: [{
-	id: String,
-	title: String,
-      }],
       owner: String
     });
   }
@@ -65,6 +57,9 @@ class Topic {
     return new Schema({
       id: String,
       title: String,
+      group: String,
+      author: String,
+      content: String,
       comments: [{
 	user: {
 	  id: String,
@@ -89,6 +84,4 @@ const _u = new User().user;
 const _g = new Group().group;
 const _t = new Topic().topic;
 
-module.exports = {
-  _u, _g, _t
-};
+module.exports = { _u, _g, _t };

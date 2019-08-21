@@ -1,17 +1,16 @@
-const topic = require('./mongo').Topic;
+const _t = require('./mongo')._t;
+const ObjectId = require('mongoose').Types.ObjectId;
 
-function info(ctx) {
+async function info(ctx) {
+  const id = ctx.params.id;
+  let res = await _t.findOne({_id: id});
+  
   ctx.body = {
-    id: 'this is id',
-    title: 'topic title',
-    comments: [
-      'comments A',
-      'comments B',
-      'comments C'
-    ]
+    id: res._id,
+    title: res.title,
+    content: res.content,
+    comments: res.comments
   };
 }
 
-module.exports = {
-  info
-}
+module.exports = { info };

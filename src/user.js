@@ -3,7 +3,18 @@ const crypto = require('crypto');
 
 const _r = new Redis();
 const { _u, _g } = require('./mongo');
+
+async function thum(ctx) {
+  const name = ctx.params.name;
+  let r = await _u.findOne({name: name});
+  ctx.body = {
+    name: r.name?r.name: '',
+    mail: r.mail?r.mail: ''
+  };
   
+  return;
+}
+
 async function info(ctx) {
   const id = ctx.params.id;
   const tk = ctx.request.header.token;
@@ -83,5 +94,5 @@ async function sms_verify(ctx) {
 }
 
 module.exports = {
-  info, sms, sms_verify, update, _u
+  info, sms, thum, sms_verify, update, _u
 };

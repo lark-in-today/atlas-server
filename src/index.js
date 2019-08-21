@@ -16,11 +16,13 @@ class Index {
     r
       .all('/', ctx => { ctx.body = 'hello, world';})
       .get('/api_v0/user/:id', user.info)
+      .get('/api_v0/user/:name/thum', user.thum)
       .put('/api_v0/user/:id/update', user.update)
       .post('/api_v0/user/:id/sms', user.sms)
       .post('/api_v0/user/:id/sms_verify', user.sms_verify)
       .all('/api_v0/group/:id', group.info)
-      .all('/api_v0/group/:id/data', group.data)
+      .get('/api_v0/group/:id/data', group.data)
+      .post('/api_v0/group/:id/topic', group.topic)
       .all('/api_v0/topic/:id', topic.info)
 
     return r;
